@@ -88,7 +88,6 @@
                     <a href="https://laravel.com/docs">文件</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">新聞</a>
-                    <a href="https://laravel-news.com">新聞</a>
                     <a href="https://blog.laravel.com">部落格</a>
                     <a href="https://nova.laravel.com">Nova</a>
                     <a href="https://forge.laravel.com">Forge</a>
