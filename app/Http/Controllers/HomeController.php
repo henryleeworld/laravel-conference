@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Setting;
-use App\Speaker;
-use App\Schedule;
-use App\Venue;
-use App\Hotel;
-use App\Gallery;
-use App\Sponsor;
-use App\Faq;
-use App\Price;
-use App\Amenity;
+use App\Models\Amenity;
+use App\Models\Faq;
+use App\Models\Gallery;
+use App\Models\Hotel;
+use App\Models\Price;
+use App\Models\Schedule;
+use App\Models\Setting;
+use App\Models\Speaker;
+use App\Models\Sponsor;
+use App\Models\Venue;
 
 class HomeController extends Controller
 {

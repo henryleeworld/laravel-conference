@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Schedule;
+use App\Models\Schedule;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;

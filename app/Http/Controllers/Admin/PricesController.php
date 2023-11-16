@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Amenity;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyPriceRequest;
 use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
-use App\Price;
+use App\Models\Amenity;
+use App\Models\Price;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

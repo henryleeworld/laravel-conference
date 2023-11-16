@@ -1,101 +1,112 @@
 @extends('layouts.admin')
 @section('content')
 @can('schedule_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.schedules.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.schedule.title_singular') }}
-            </a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{ trans('cruds.schedule.title_singular') }} {{ trans('global.list') }}</h1>
+				<div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.schedules.create") }}">
+                            {{ trans('global.add') }} {{ trans('cruds.schedule.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 @endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.schedule.title_singular') }} {{ trans('global.list') }}
-    </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+		                    <table class=" table table-bordered table-striped table-hover datatable datatable-Schedule" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10">
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Schedule">
-                <thead>
-                    <tr>
-                        <th width="10">
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.id') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.day_number') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.start_time') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.title') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.subtitle') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.schedule.fields.speaker') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($schedules as $key => $schedule)
+                                    <tr data-entry-id="{{ $schedule->id }}">
+                                        <td>
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.day_number') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.start_time') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.title') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.subtitle') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.schedule.fields.speaker') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($schedules as $key => $schedule)
-                        <tr data-entry-id="{{ $schedule->id }}">
-                            <td>
+                                        </td>
+                                        <td>
+                                            {{ $schedule->id ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $schedule->day_number ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $schedule->start_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $schedule->title ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $schedule->subtitle ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $schedule->speaker->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            @can('schedule_show')
+                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.schedules.show', $schedule->id) }}">
+                                                {{ trans('global.view') }}
+                                            </a>
+                                            @endcan
 
-                            </td>
-                            <td>
-                                {{ $schedule->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $schedule->day_number ?? '' }}
-                            </td>
-                            <td>
-                                {{ $schedule->start_time ?? '' }}
-                            </td>
-                            <td>
-                                {{ $schedule->title ?? '' }}
-                            </td>
-                            <td>
-                                {{ $schedule->subtitle ?? '' }}
-                            </td>
-                            <td>
-                                {{ $schedule->speaker->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('schedule_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.schedules.show', $schedule->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
+                                            @can('schedule_edit')
+                                            <a class="btn btn-xs btn-info" href="{{ route('admin.schedules.edit', $schedule->id) }}">
+                                                {{ trans('global.edit') }}
+                                            </a>
+                                            @endcan
 
-                                @can('schedule_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.schedules.edit', $schedule->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('schedule_delete')
-                                    <form action="{{ route('admin.schedules.destroy', $schedule->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                            @can('schedule_delete')
+                                            <form action="{{ route('admin.schedules.destroy', $schedule->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                            </form>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

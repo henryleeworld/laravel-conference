@@ -1,91 +1,102 @@
 @extends('layouts.admin')
 @section('content')
 @can('price_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.prices.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.price.title_singular') }}
-            </a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{ trans('cruds.price.title_singular') }} {{ trans('global.list') }}</h1>
+				<div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.prices.create") }}">
+                            {{ trans('global.add') }} {{ trans('cruds.price.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 @endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.price.title_singular') }} {{ trans('global.list') }}
-    </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+				            <table class=" table table-bordered table-striped table-hover datatable datatable-Price" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10">
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Price">
-                <thead>
-                    <tr>
-                        <th width="10">
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.price.fields.id') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.price.fields.name') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.price.fields.price') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.price.fields.amenities') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($prices as $key => $price)
+                                    <tr data-entry-id="{{ $price->id }}">
+                                        <td>
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.price.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.price.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.price.fields.price') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.price.fields.amenities') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($prices as $key => $price)
-                        <tr data-entry-id="{{ $price->id }}">
-                            <td>
+                                        </td>
+                                        <td>
+                                            {{ $price->id ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $price->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $price->price ?? '' }}
+                                        </td>
+                                        <td>
+                                            @foreach($price->amenities as $key => $item)
+                                            <span class="badge badge-info">{{ $item->name }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @can('price_show')
+                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.prices.show', $price->id) }}">
+                                                {{ trans('global.view') }}
+                                            </a>
+                                            @endcan
 
-                            </td>
-                            <td>
-                                {{ $price->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $price->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $price->price ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($price->amenities as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                @can('price_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.prices.show', $price->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
+                                            @can('price_edit')
+                                            <a class="btn btn-xs btn-info" href="{{ route('admin.prices.edit', $price->id) }}">
+                                                {{ trans('global.edit') }}
+                                            </a>
+                                            @endcan
 
-                                @can('price_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.prices.edit', $price->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('price_delete')
-                                    <form action="{{ route('admin.prices.destroy', $price->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                            @can('price_delete')
+                                            <form action="{{ route('admin.prices.destroy', $price->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                            </form>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

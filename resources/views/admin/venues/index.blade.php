@@ -1,95 +1,105 @@
 @extends('layouts.admin')
 @section('content')
 @can('venue_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.venues.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.venue.title_singular') }}
-            </a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{ trans('cruds.venue.title_singular') }} {{ trans('global.list') }}</h1>
+				<div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.venues.create") }}">
+                            {{ trans('global.add') }} {{ trans('cruds.venue.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.venue.title_singular') }} {{ trans('global.list') }}
-    </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class=" table table-bordered table-striped table-hover datatable datatable-Venue" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10">
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Venue">
-                <thead>
-                    <tr>
-                        <th width="10">
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.venue.fields.id') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.venue.fields.name') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.venue.fields.address') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.venue.fields.latitude') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.venue.fields.longitude') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($venues as $key => $venue)
+                                    <tr data-entry-id="{{ $venue->id }}">
+                                        <td>
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.venue.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.venue.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.venue.fields.address') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.venue.fields.latitude') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.venue.fields.longitude') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($venues as $key => $venue)
-                        <tr data-entry-id="{{ $venue->id }}">
-                            <td>
+                                        </td>
+                                        <td>
+                                            {{ $venue->id ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $venue->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $venue->address ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $venue->latitude ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $venue->longitude ?? '' }}
+                                        </td>
+                                        <td>
+                                            @can('venue_show')
+                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.venues.show', $venue->id) }}">
+                                                {{ trans('global.view') }}
+                                            </a>
+                                            @endcan
 
-                            </td>
-                            <td>
-                                {{ $venue->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $venue->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $venue->address ?? '' }}
-                            </td>
-                            <td>
-                                {{ $venue->latitude ?? '' }}
-                            </td>
-                            <td>
-                                {{ $venue->longitude ?? '' }}
-                            </td>
-                            <td>
-                                @can('venue_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.venues.show', $venue->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
+                                            @can('venue_edit')
+                                            <a class="btn btn-xs btn-info" href="{{ route('admin.venues.edit', $venue->id) }}">
+                                                {{ trans('global.edit') }}
+                                            </a>
+                                            @endcan
 
-                                @can('venue_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.venues.edit', $venue->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('venue_delete')
-                                    <form action="{{ route('admin.venues.destroy', $venue->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                            @can('venue_delete')
+                                            <form action="{{ route('admin.venues.destroy', $venue->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                            </form>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

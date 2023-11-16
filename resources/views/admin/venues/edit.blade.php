@@ -1,95 +1,105 @@
 @extends('layouts.admin')
 @section('content')
-
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.venue.title_singular') }}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{ trans('global.edit') }} {{ trans('cruds.venue.title_singular') }}</h1>
+            </div>
+        </div>
     </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route("admin.venues.update", [$venue->id]) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3 {{ $errors->has('name') ? 'has-error' : '' }}">
+                                <label for="name">{{ trans('cruds.venue.fields.name') }}*</label>
+                                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($venue) ? $venue->name : '') }}" required>
+                                @if($errors->has('name'))
+                                <p class="help-block">
+                                    {{ $errors->first('name') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.name_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('photos') ? 'has-error' : '' }}">
+                                <label for="photos">{{ trans('cruds.venue.fields.photos') }}</label>
+                                <div class="needsclick dropzone" id="photos-dropzone">
 
-    <div class="card-body">
-        <form action="{{ route("admin.venues.update", [$venue->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="name">{{ trans('cruds.venue.fields.name') }}*</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($venue) ? $venue->name : '') }}" required>
-                @if($errors->has('name'))
-                    <p class="help-block">
-                        {{ $errors->first('name') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.name_helper') }}
-                </p>
-            </div>
-            <div class="form-group {{ $errors->has('photos') ? 'has-error' : '' }}">
-                <label for="photos">{{ trans('cruds.venue.fields.photos') }}</label>
-                <div class="needsclick dropzone" id="photos-dropzone">
-
+                                </div>
+                                @if($errors->has('photos'))
+                                <p class="help-block">
+                                    {{ $errors->first('photos') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.photos_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('address') ? 'has-error' : '' }}">
+                                <label for="address">{{ trans('cruds.venue.fields.address') }}*</label>
+                                <input type="text" id="address" name="address" class="form-control" value="{{ old('address', isset($venue) ? $venue->address : '') }}" required>
+                                @if($errors->has('address'))
+                                <p class="help-block">
+                                    {{ $errors->first('address') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.address_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('latitude') ? 'has-error' : '' }}">
+                                <label for="latitude">{{ trans('cruds.venue.fields.latitude') }}*</label>
+                                <input type="text" id="latitude" name="latitude" class="form-control" value="{{ old('latitude', isset($venue) ? $venue->latitude : '') }}" required>
+                                @if($errors->has('latitude'))
+                                <p class="help-block">
+                                    {{ $errors->first('latitude') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.latitude_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('longitude') ? 'has-error' : '' }}">
+                                <label for="longitude">{{ trans('cruds.venue.fields.longitude') }}*</label>
+                                <input type="text" id="longitude" name="longitude" class="form-control" value="{{ old('longitude', isset($venue) ? $venue->longitude : '') }}" required>
+                                @if($errors->has('longitude'))
+                                <p class="help-block">
+                                    {{ $errors->first('longitude') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.longitude_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('description') ? 'has-error' : '' }}">
+                                <label for="description">{{ trans('cruds.venue.fields.description') }}</label>
+                                <textarea id="description" name="description" class="form-control ">{{ old('description', isset($venue) ? $venue->description : '') }}</textarea>
+                                @if($errors->has('description'))
+                                <p class="help-block">
+                                    {{ $errors->first('description') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.venue.fields.description_helper') }}
+                                </p>
+                            </div>
+                            <div>
+                                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                @if($errors->has('photos'))
-                    <p class="help-block">
-                        {{ $errors->first('photos') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.photos_helper') }}
-                </p>
             </div>
-            <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
-                <label for="address">{{ trans('cruds.venue.fields.address') }}*</label>
-                <input type="text" id="address" name="address" class="form-control" value="{{ old('address', isset($venue) ? $venue->address : '') }}" required>
-                @if($errors->has('address'))
-                    <p class="help-block">
-                        {{ $errors->first('address') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.address_helper') }}
-                </p>
-            </div>
-            <div class="form-group {{ $errors->has('latitude') ? 'has-error' : '' }}">
-                <label for="latitude">{{ trans('cruds.venue.fields.latitude') }}*</label>
-                <input type="text" id="latitude" name="latitude" class="form-control" value="{{ old('latitude', isset($venue) ? $venue->latitude : '') }}" required>
-                @if($errors->has('latitude'))
-                    <p class="help-block">
-                        {{ $errors->first('latitude') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.latitude_helper') }}
-                </p>
-            </div>
-            <div class="form-group {{ $errors->has('longitude') ? 'has-error' : '' }}">
-                <label for="longitude">{{ trans('cruds.venue.fields.longitude') }}*</label>
-                <input type="text" id="longitude" name="longitude" class="form-control" value="{{ old('longitude', isset($venue) ? $venue->longitude : '') }}" required>
-                @if($errors->has('longitude'))
-                    <p class="help-block">
-                        {{ $errors->first('longitude') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.longitude_helper') }}
-                </p>
-            </div>
-            <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-                <label for="description">{{ trans('cruds.venue.fields.description') }}</label>
-                <textarea id="description" name="description" class="form-control ">{{ old('description', isset($venue) ? $venue->description : '') }}</textarea>
-                @if($errors->has('description'))
-                    <p class="help-block">
-                        {{ $errors->first('description') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.venue.fields.description_helper') }}
-                </p>
-            </div>
-            <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
-            </div>
-        </form>
-
-
+        </div>
     </div>
 </div>
 @endsection

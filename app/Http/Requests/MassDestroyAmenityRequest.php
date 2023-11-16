@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Amenity;
+use App\Models\Amenity;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;

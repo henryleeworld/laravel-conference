@@ -1,59 +1,69 @@
 @extends('layouts.admin')
 @section('content')
-
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.sponsor.title_singular') }}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{ trans('global.edit') }} {{ trans('cruds.sponsor.title_singular') }}</h1>
+            </div>
+        </div>
     </div>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route("admin.sponsors.update", [$sponsor->id]) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3 {{ $errors->has('name') ? 'has-error' : '' }}">
+                                <label for="name">{{ trans('cruds.sponsor.fields.name') }}*</label>
+                                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($sponsor) ? $sponsor->name : '') }}" required>
+                                @if($errors->has('name'))
+                                <p class="help-block">
+                                    {{ $errors->first('name') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.sponsor.fields.name_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('logo') ? 'has-error' : '' }}">
+                                <label for="logo">{{ trans('cruds.sponsor.fields.logo') }}</label>
+                                <div class="needsclick dropzone" id="logo-dropzone">
 
-    <div class="card-body">
-        <form action="{{ route("admin.sponsors.update", [$sponsor->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                <label for="name">{{ trans('cruds.sponsor.fields.name') }}*</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($sponsor) ? $sponsor->name : '') }}" required>
-                @if($errors->has('name'))
-                    <p class="help-block">
-                        {{ $errors->first('name') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.sponsor.fields.name_helper') }}
-                </p>
-            </div>
-            <div class="form-group {{ $errors->has('logo') ? 'has-error' : '' }}">
-                <label for="logo">{{ trans('cruds.sponsor.fields.logo') }}</label>
-                <div class="needsclick dropzone" id="logo-dropzone">
-
+                                </div>
+                                @if($errors->has('logo'))
+                                <p class="help-block">
+                                    {{ $errors->first('logo') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.sponsor.fields.logo_helper') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 {{ $errors->has('link') ? 'has-error' : '' }}">
+                                <label for="link">{{ trans('cruds.sponsor.fields.link') }}</label>
+                                <input type="text" id="link" name="link" class="form-control" value="{{ old('link', isset($sponsor) ? $sponsor->link : '') }}">
+                                @if($errors->has('link'))
+                                <p class="help-block">
+                                    {{ $errors->first('link') }}
+                                </p>
+                                @endif
+                                <p class="helper-block">
+                                    {{ trans('cruds.sponsor.fields.link_helper') }}
+                                </p>
+                            </div>
+                            <div>
+                                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                @if($errors->has('logo'))
-                    <p class="help-block">
-                        {{ $errors->first('logo') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.sponsor.fields.logo_helper') }}
-                </p>
             </div>
-            <div class="form-group {{ $errors->has('link') ? 'has-error' : '' }}">
-                <label for="link">{{ trans('cruds.sponsor.fields.link') }}</label>
-                <input type="text" id="link" name="link" class="form-control" value="{{ old('link', isset($sponsor) ? $sponsor->link : '') }}">
-                @if($errors->has('link'))
-                    <p class="help-block">
-                        {{ $errors->first('link') }}
-                    </p>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.sponsor.fields.link_helper') }}
-                </p>
-            </div>
-            <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
-            </div>
-        </form>
-
-
+        </div>
     </div>
 </div>
 @endsection
