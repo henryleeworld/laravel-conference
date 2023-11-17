@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 @section('content')
-@can('venue_create')
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">{{ trans('cruds.venue.title_singular') }} {{ trans('global.list') }}</h1>
+                @can('venue_create')
 				<div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
                         <a class="btn btn-success" href="{{ route("admin.venues.create") }}">
@@ -13,6 +13,7 @@
                         </a>
                     </div>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
@@ -106,7 +107,7 @@
 @endsection
 @section('scripts')
 @parent
-<script>
+<script type="module">
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('venue_delete')
